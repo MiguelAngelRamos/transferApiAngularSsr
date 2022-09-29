@@ -27,7 +27,7 @@ export class UserResolver implements Resolve<IUser> {
       this.transferState.remove(USER_KEY);
       return of(user);
     } else {
-      //* TODO: estamos en servidor
+      //* estamos en servidor
       return this.dataService.getUser(userId)
         .pipe(
           first(),

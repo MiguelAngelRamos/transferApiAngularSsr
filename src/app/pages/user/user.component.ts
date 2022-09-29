@@ -10,18 +10,25 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class UserComponent implements OnInit {
   public user!: IUser;
-  constructor(private dataService: DataService, private activatedRoute:ActivatedRoute) { }
+  constructor(
+    private dataService: DataService, 
+    private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getUser();
+    // this.getUser();
+    this.user = this.activatedRoute.snapshot.data["user"];
+    console.log(this.user);
+
   }
 
-  getUser() {
-    this.activatedRoute.paramMap.subscribe( params => {
-      let id = Number(params.get('id'));
-      // console.log(typeof(Number(params.get('id'))));
-      this.dataService.getUser(id).subscribe(user => this.user = user);
-    })
-  }
+  // getUser() {
+  //   this.activatedRoute.paramMap.subscribe( params => {
+  //     let id = Number(params.get('id'));
+  //     // console.log(typeof(Number(params.get('id'))));
+  //     this.dataService.getUser(id).subscribe(user => this.user = user);
+  //   })
+  // }
+
+  //* control + k + c
 
 }
