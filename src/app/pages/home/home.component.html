@@ -1,0 +1,27 @@
+<h1 class="fst-italic text-center mb-5" *appShellNoRender>Lista de Posts</h1>
+
+<div class="row" *ngFor="let post of posts">
+
+  <div class="col posts" *appShellNoRender>
+
+    <h2>{{ post.title.charAt(0).toUpperCase() + post.title.slice(1)}}</h2>
+    <a [routerLink]="['/user', post.id]">Ver autor</a>
+    <p> {{ post.body }}</p>
+    <button class="btn btn-secondary" (click)="comentariosId(post.id)">Comentarios</button>
+    
+    <!-- Comentarios de los Posts -->
+    <ng-container *ngFor="let comentFiltro of comentariosFiltrados; let ind = index">
+      <button *ngIf="ind == 0 && comentFiltro.postId === post.id && isVisible == true " class="float-end btn-sm  btn-danger" (click)="closeComment()">Cerrar</button>
+
+      <div class="mt-3 col-sm-10 offset-sm-1" *ngIf="comentFiltro.postId === post.id && isVisible == true">  
+        <label class="fw-bold"> User: {{ comentFiltro.email }}</label>
+        <br>
+        <label class="fw-bold"> Respuesta: </label>
+        <p> {{ comentFiltro.body }}</p>
+      </div>
+
+    </ng-container>
+    <hr>
+  </div>
+
+</div>
