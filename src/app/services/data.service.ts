@@ -40,7 +40,21 @@ export class DataService {
   }
 
   getComments():Observable<IComment[]> {
-    return this.http.get<IComment[]>('https://jsonplaceholder.typicode.com/comments');
+    if(this.transferState.hasKey(this.COMMENTS_KEY)) {
+      const comment = this.transferState.get(this.COMMENTS_KEY, null)!;
+      this.transferState.remove(this.COMMENTS_KEY);
+      return of(comment);
+    } else {
+      return this.http.get<IComment[]>('https://jsonplaceholder.typicode.com/comments')
+      .pipe(
+        tap(comments => {
+          if(isPlatformServer(this.platformId)) {
+            this.transferState.set(this.COMMENTS_KEY, comments);
+          }
+        })
+      );
+    }
+  
   }
 
   getUser(id: number):Observable<IUser> {
